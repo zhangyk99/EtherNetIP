@@ -245,7 +245,7 @@ namespace EtherNetIP {
         }
 
         //回调函数
-        static void CALLBACK RTthread(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2){
+        static void CALLBACK RThread(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2){
             auto pThis = reinterpret_cast<EtherNetIPRemoteDevice*>(dwUser);
             pThis->class1SendO2T();
         }
@@ -254,7 +254,7 @@ namespace EtherNetIP {
         int32_t startSendO2T(UINT uDelay, uint32_t connectionID, uint32_t O2TDataSize){
             std::vector<uint8_t> data(O2TDataSize, 0);
             rItem.newSequencedAddressItem(connectionID, 0, data);
-            tmrThread = timeSetEvent(uDelay, 0, RTthread, (DWORD_PTR)this, TIME_PERIODIC | TIME_KILL_SYNCHRONOUS);
+            tmrThread = timeSetEvent(uDelay, 0, RThread, (DWORD_PTR) this, TIME_PERIODIC | TIME_KILL_SYNCHRONOUS);
             if(tmrThread == 0)
                 return -2;
             return 0;
